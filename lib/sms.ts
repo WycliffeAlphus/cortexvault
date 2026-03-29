@@ -21,7 +21,7 @@ export async function sendAccessNotification(
   const at = AfricasTalking({ apiKey, username });
   const sms = at.SMS;
 
-  const message = `NeuroVault: ${researcherName} accessed your brain data on ${accessDate}. To revoke access visit your NeuroVault dashboard.`;
+  const message = `CortexVault: ${researcherName} accessed your brain data on ${accessDate}. To revoke access visit your CortexVault dashboard.`;
 
   await sms.send({
     to: [phoneNumber],

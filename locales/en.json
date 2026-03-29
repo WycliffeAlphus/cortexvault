@@ -1,5 +1,5 @@
 {
-  "app_name": "NeuroVault Kenya",
+  "app_name": "CortexVault Kenya",
   "tagline": "Decentralized neural data consent for community health research",
   "nav_patient": "Patient",
   "nav_researcher": "Researcher",
@@ -63,7 +63,7 @@
   "researcher_expires_label": "Access Until",
 
   "ethics_title": "Ethics & Data Rights",
-  "ethics_body": "NeuroVault is built on the principle that individuals own their neural data. Researchers must state their purpose, accept a time-limited access window, and are notified that patients can revoke consent at any time. All data is encrypted at rest. NeuroVault does not retain copies of decryption keys. This project complies with the Kenya Data Protection Act 2019.",
+  "ethics_body": "CortexVault is built on the principle that individuals own their neural data. Researchers must state their purpose, accept a time-limited access window, and are notified that patients can revoke consent at any time. All data is encrypted at rest. CortexVault does not retain copies of decryption keys. This project complies with the Kenya Data Protection Act 2019.",
   "ethics_rights_title": "Your Rights",
   "ethics_right_1": "Right to access: view who has accessed your data",
   "ethics_right_2": "Right to revoke: instantly block any researcher",

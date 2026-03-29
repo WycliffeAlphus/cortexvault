@@ -1,5 +1,5 @@
 {
-  "app_name": "NeuroVault Kenya",
+  "app_name": "CortexVault Kenya",
   "tagline": "Idhini ya data ya ubongo kwa utafiti wa afya ya jamii",
   "nav_patient": "Mgonjwa",
   "nav_researcher": "Mtafiti",
@@ -63,7 +63,7 @@
   "researcher_expires_label": "Ufikiaji Hadi",
 
   "ethics_title": "Maadili na Haki za Data",
-  "ethics_body": "NeuroVault imejengwa juu ya kanuni kwamba watu binafsi wanamiliki data yao ya neva. Watafiti lazima waseme madhumuni yao, wakubali dirisha la ufikiaji la muda mfupi, na wataarifu kwamba wagonjwa wanaweza kuondoa idhini wakati wowote. Data yote imesimbwa wakati wa kuhifadhiwa. NeuroVault haihifadhi nakala za funguo za usimbuaji. Mradi huu unazingatia Sheria ya Ulinzi wa Data ya Kenya 2019.",
+  "ethics_body": "CortexVault imejengwa juu ya kanuni kwamba watu binafsi wanamiliki data yao ya neva. Watafiti lazima waseme madhumuni yao, wakubali dirisha la ufikiaji la muda mfupi, na wataarifu kwamba wagonjwa wanaweza kuondoa idhini wakati wowote. Data yote imesimbwa wakati wa kuhifadhiwa. CortexVault haihifadhi nakala za funguo za usimbuaji. Mradi huu unazingatia Sheria ya Ulinzi wa Data ya Kenya 2019.",
   "ethics_rights_title": "Haki Zako",
   "ethics_right_1": "Haki ya ufikiaji: angalia ni nani aliyefikia data yako",
   "ethics_right_2": "Haki ya kuondoa: zuia mtafiti yeyote mara moja",
