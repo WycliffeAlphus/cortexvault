@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Badge } from "@/components/ui/badge";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { SplitAuthShell, RESEARCHER_FEATURES } from "@/components/SplitAuthShell";
+import { SplitAuthShell } from "@/components/SplitAuthShell";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useWallet } from "@/hooks/useWallet";
 import { appendAuditEvent, type Dataset, getDatasets } from "@/lib/store";
@@ -120,17 +120,17 @@ export default function ResearcherPortal() {
           try {
             const buf = await decryptFile(payload, wallet, `${grant.patientWallet}:${grant.dataset.fileName}:${grant.dataset.cid.length}`);
             const byteCount = buf.byteLength;
-            decryptedContent = `[EEG Data — Decrypted via Lit Protocol]\nFile: ${grant.dataset.fileName}\nSize: ${(byteCount / 1024).toFixed(1)} KB\nCID: ${grant.datasetCid}\nStudy: ${grant.purpose}\nAccess granted until: ${new Date(grant.expiresAt).toLocaleDateString()}`;
+            decryptedContent = `[${t("eeg_decrypted_label")}]\nFile: ${grant.dataset.fileName}\nSize: ${(byteCount / 1024).toFixed(1)} KB\nCID: ${grant.datasetCid}\n${t("eeg_study_label")} ${grant.purpose}\n${t("eeg_access_until")} ${new Date(grant.expiresAt).toLocaleDateString()}`;
           } catch {
             // Seed mismatch (different browser session) — show metadata only
-            decryptedContent = `[EEG Data — Lit Access Verified]\nFile: ${grant.dataset.fileName}\nChannels: 64 | Duration: 120s | Sample rate: 256Hz\nCID: ${grant.datasetCid}\nStudy: ${grant.purpose}\nAccess granted until: ${new Date(grant.expiresAt).toLocaleDateString()}`;
+            decryptedContent = `[${t("eeg_lit_verified_label")}]\nFile: ${grant.dataset.fileName}\n${t("eeg_channels_info")}\nCID: ${grant.datasetCid}\n${t("eeg_study_label")} ${grant.purpose}\n${t("eeg_access_until")} ${new Date(grant.expiresAt).toLocaleDateString()}`;
           }
         } else {
           // Legacy demo payload
-          decryptedContent = `[EEG Data] ${grant.dataset.fileName}\nChannels: 64 | Duration: 120s | Sample rate: 256Hz\nPatient: anonymous | Study: ${grant.purpose}`;
+          decryptedContent = `[${t("eeg_data_label")}] ${grant.dataset.fileName}\n${t("eeg_channels_info")}\n${t("eeg_patient_anon")} | ${t("eeg_study_label")} ${grant.purpose}`;
         }
       } else {
-        decryptedContent = `[EEG Data] ${grant.datasetCid.slice(0, 20)}…\nChannels: 64 | Duration: 120s | Sample rate: 256Hz\nStudy: ${grant.purpose}`;
+        decryptedContent = `[${t("eeg_data_label")}] ${grant.datasetCid.slice(0, 20)}…\n${t("eeg_channels_info")}\n${t("eeg_study_label")} ${grant.purpose}`;
       }
 
       setGrants((prev) =>
@@ -168,12 +168,7 @@ export default function ResearcherPortal() {
   // ── Not connected ────────────────────────────────────────────────────────────
   if (!wallet) {
     return (
-      <SplitAuthShell
-        role="researcher"
-        headline="Access consented neural data."
-        tagline="Patient-verified, time-limited, purpose-specific. Lit Protocol enforces every condition."
-        features={RESEARCHER_FEATURES}
-      >
+      <SplitAuthShell role="researcher">
         <div>
           <h2 className="text-2xl font-bold mb-1">{t("researcher_title")}</h2>
           <p className="text-muted-foreground text-sm mb-8">{t("researcher_subtitle")}</p>

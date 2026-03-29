@@ -44,7 +44,7 @@ export function EthicsPanel() {
           </ul>
         </div>
         <p className="text-xs text-emerald-700 pt-1 border-t border-emerald-200">
-          🇰🇪 Kenya Data Protection Act 2019 · PL Genesis Hackathon 2026
+          🇰🇪 {t("footer_compliance")}
         </p>
       </CardContent>
     </Card>
