@@ -1,0 +1,24 @@
+import { NextRequest, NextResponse } from "next/server";
+import { sendAccessNotification } from "@/lib/sms";
+
+export async function POST(req: NextRequest) {
+  try {
+    const { phoneNumber, researcherName, accessDate } = await req.json();
+
+    if (!phoneNumber || !researcherName) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    const date = accessDate ?? new Date().toLocaleDateString("en-KE", {
+      day: "numeric", month: "long", year: "numeric",
+    });
+
+    await sendAccessNotification(phoneNumber, researcherName, date);
+    return NextResponse.json({ sent: true });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "SMS failed";
+    console.error("[notify]", message);
+    // Non-fatal — don't break the access flow if SMS fails
+    return NextResponse.json({ sent: false, error: message });
+  }
+}
