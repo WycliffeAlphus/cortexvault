@@ -48,7 +48,7 @@ export default function LandingPage() {
             <span className="font-bold text-base">{t("app_name")}</span>
           </div>
           <div className="flex items-center gap-1">
-            <LanguageToggle className="border-white/25 text-white hover:bg-white/10 hover:text-white" />
+            <LanguageToggle className="border-white/30 text-white bg-transparent hover:bg-white/10 hover:text-white" />
             <ThemeToggle className="text-white hover:bg-white/10" />
           </div>
         </header>
@@ -108,7 +108,7 @@ export default function LandingPage() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="gap-2 border-white/20 text-white hover:bg-white/10 rounded-lg">
+            <Button asChild size="lg" variant="outline" className="gap-2 border-white/30 text-white bg-transparent hover:bg-white/10 hover:text-white rounded-lg">
               <Link href="/researcher">{t("landing_cta_researcher")}</Link>
             </Button>
           </div>
