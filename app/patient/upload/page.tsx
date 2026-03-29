@@ -91,7 +91,7 @@ export default function UploadPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-muted/30">
-      <header className="flex items-center justify-between px-4 py-3 border-b bg-background">
+      <header className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 border-b bg-background/95 backdrop-blur">
         <Link href="/" className="flex items-center gap-2 hover:opacity-75 transition-opacity">
           <Brain className="h-5 w-5 text-primary" />
           <span className="font-semibold">{t("app_name")}</span>

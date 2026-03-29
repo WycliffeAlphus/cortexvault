@@ -40,7 +40,7 @@ export default function LandingPage() {
       <div className="relative bg-zinc-950 text-white overflow-hidden">
 
         {/* Nav */}
-        <header className="relative z-20 flex items-center justify-between px-5 py-4">
+        <header className="sticky top-0 z-20 flex items-center justify-between px-5 py-4">
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-lg bg-white/10 flex items-center justify-center">
               <Brain className="h-4 w-4 text-white" />

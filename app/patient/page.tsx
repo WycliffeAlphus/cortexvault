@@ -141,7 +141,7 @@ export default function PatientDashboard() {
   // ── Dashboard ────────────────────────────────────────────────────────────────
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="flex items-center justify-between px-4 py-3 border-b">
+      <header className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 border-b bg-background/95 backdrop-blur">
         <Link href="/" className="flex items-center gap-2 hover:opacity-75 transition-opacity">
           <Brain className="h-5 w-5 text-primary" />
           <span className="font-semibold">{t("app_name")}</span>
