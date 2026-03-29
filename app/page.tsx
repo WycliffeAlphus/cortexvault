@@ -10,10 +10,14 @@ import { useTranslation } from "@/hooks/useTranslation";
 const FEATURE_ICONS = [Lock, Users, Smartphone] as const;
 
 const TECH_LOGOS = [
-  { src: "https://storacha.network/img/storacha-wm.svg", alt: "Storacha", h: 18 },
-  { src: "https://filecoin.io/images/filecoin-logo.svg", alt: "Filecoin", h: 20 },
-  { src: "https://www.litprotocol.com/lit-logo.svg", alt: "Lit Protocol", h: 18 },
-  { src: "https://res.cloudinary.com/startup-grind/image/upload/dpr_2.0,fl_sanitize/v1/gcs/platform-data-africastalking/contentbuilder/at-community-logo-colored_UWdXHTK.svg", alt: "Africa's Talking", h: 22 },
+  // Storacha: #e91315 red SVG — has own color, no invert
+  { src: "https://storacha.network/img/storacha-wm.svg", alt: "Storacha", h: 18, darkInvert: false },
+  // Filecoin: #0090ff blue SVG — has own color, no invert
+  { src: "https://filecoin.io/images/filecoin-logo.svg", alt: "Filecoin", h: 20, darkInvert: false },
+  // Lit Protocol: all currentColor (black) — needs invert on dark to become white
+  { src: "https://www.litprotocol.com/lit-logo.svg", alt: "Lit Protocol", h: 18, darkInvert: true },
+  // Africa's Talking: full-color Cloudinary SVG — has own colors, no invert
+  { src: "https://res.cloudinary.com/startup-grind/image/upload/dpr_2.0,fl_sanitize/v1/gcs/platform-data-africastalking/contentbuilder/at-community-logo-colored_UWdXHTK.svg", alt: "Africa's Talking", h: 22, darkInvert: false },
 ] as const;
 
 const ICON_COLORS = [
@@ -111,14 +115,18 @@ export default function LandingPage() {
             <div className="flex flex-col items-center gap-3">
               <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">Built with</p>
               <div className="flex flex-wrap items-center justify-center gap-8">
-                {TECH_LOGOS.map(({ src, alt, h }) => (
+                {TECH_LOGOS.map(({ src, alt, h, darkInvert }) => (
                   <div key={alt} className="group flex flex-col items-center gap-1.5">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={src}
                       alt={alt}
                       style={{ height: h, width: "auto" }}
-                      className="opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-200 dark:invert dark:brightness-150"
+                      className={[
+                        "opacity-50 grayscale transition-all duration-200",
+                        "group-hover:opacity-100 group-hover:grayscale-0",
+                        darkInvert ? "dark:invert" : "",
+                      ].join(" ")}
                       onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                     />
                     <span className="text-xs font-medium text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap">
