@@ -8,11 +8,11 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 const FEATURE_ICONS = [Lock, Users, Smartphone] as const;
 
-const TECH_BADGES = [
-  { label: "Storacha", color: "bg-blue-50 text-blue-700 border-blue-200" },
-  { label: "Filecoin", color: "bg-sky-50 text-sky-700 border-sky-200" },
-  { label: "Lit Protocol", color: "bg-violet-50 text-violet-700 border-violet-200" },
-  { label: "Africa's Talking", color: "bg-green-50 text-green-700 border-green-200" },
+const TECH_LOGOS = [
+  { src: "https://storacha.network/img/storacha-wm.svg", alt: "Storacha", h: 18 },
+  { src: "https://filecoin.io/images/filecoin-logo.svg", alt: "Filecoin", h: 20 },
+  { src: "https://www.litprotocol.com/lit-logo.svg", alt: "Lit Protocol", h: 18 },
+  { src: "https://res.cloudinary.com/startup-grind/image/upload/dpr_2.0,fl_sanitize/v1/gcs/platform-data-africastalking/contentbuilder/at-community-logo-colored_UWdXHTK.svg", alt: "Africa's Talking", h: 22 },
 ] as const;
 
 const ICON_COLORS = [
@@ -105,16 +105,30 @@ export default function LandingPage() {
               </Button>
             </div>
 
-            {/* Tech stack badges */}
-            <div className="flex flex-wrap gap-2 justify-center">
-              {TECH_BADGES.map(({ label, color }) => (
-                <span
-                  key={label}
-                  className={`inline-flex items-center rounded-full border px-3 py-0.5 text-xs font-medium ${color}`}
-                >
-                  {label}
-                </span>
-              ))}
+            {/* Tech stack logos */}
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">Built with</p>
+              <div className="flex flex-wrap items-center justify-center gap-6">
+                {TECH_LOGOS.map(({ src, alt, h }) => (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    key={alt}
+                    src={src}
+                    alt={alt}
+                    style={{ height: h, width: "auto", opacity: 0.75, filter: "grayscale(20%)" }}
+                    className="hover:opacity-100 hover:filter-none transition-all duration-200"
+                    onError={(e) => {
+                      // Fallback to text if image fails
+                      const el = e.currentTarget;
+                      el.style.display = "none";
+                      const span = document.createElement("span");
+                      span.textContent = alt;
+                      span.className = "text-xs font-medium text-muted-foreground";
+                      el.parentElement?.appendChild(span);
+                    }}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </section>
