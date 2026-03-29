@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { Brain, Plus, LogIn } from "lucide-react";
+import { Brain, Plus, LogIn, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,14 +14,14 @@ import { AuditLog, type AuditEvent } from "@/components/AuditLog";
 import { EthicsPanel } from "@/components/EthicsPanel";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useWallet } from "@/hooks/useWallet";
 import {
-  getStoredWallet, setStoredWallet, getDatasets, getGrants,
-  addGrant, revokeGrant, getAuditLog, appendAuditEvent, type Dataset,
+  getDatasets, getGrants, addGrant, revokeGrant, getAuditLog, appendAuditEvent, type Dataset,
 } from "@/lib/store";
 
 export default function PatientDashboard() {
   const { t } = useTranslation();
-  const [wallet, setWallet] = useState<string | null>(null);
+  const { wallet, connect, disconnect, connecting } = useWallet();
   const [walletInput, setWalletInput] = useState("");
   const [datasets, setDatasets] = useState<Dataset[]>([]);
   const [grants, setGrants] = useState<ConsentGrant[]>([]);
@@ -35,6 +35,8 @@ export default function PatientDashboard() {
   const [expiresAt, setExpiresAt] = useState("");
   const [granting, setGranting] = useState(false);
 
+  const hasMetaMask = typeof window !== "undefined" && !!(window as Window & { ethereum?: unknown }).ethereum;
+
   const refresh = useCallback((w: string) => {
     setDatasets(getDatasets(w));
     setGrants(getGrants(w));
@@ -42,18 +44,12 @@ export default function PatientDashboard() {
   }, []);
 
   useEffect(() => {
-    const stored = getStoredWallet();
-    if (stored) {
-      setWallet(stored);
-      refresh(stored);
-    }
-  }, [refresh]);
+    if (wallet) refresh(wallet);
+  }, [wallet, refresh]);
 
-  function connect() {
-    const addr = walletInput.trim() || `0xDemo${Math.random().toString(16).slice(2, 10)}`;
-    setStoredWallet(addr);
-    setWallet(addr);
-    refresh(addr);
+  async function handleConnect() {
+    const addr = await connect(walletInput);
+    if (addr) refresh(addr);
   }
 
   async function handleGrant() {
@@ -121,19 +117,28 @@ export default function PatientDashboard() {
             <CardDescription>{t("connect_hint")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            <div className="space-y-1.5">
-              <Label>{t("researcher_wallet_label")}</Label>
-              <Input
-                placeholder={t("wallet_placeholder")}
-                value={walletInput}
-                onChange={(e) => setWalletInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && connect()}
-              />
-            </div>
-            <Button className="w-full" onClick={connect}>
-              <LogIn className="h-4 w-4" />
-              {t("researcher_connect")}
-            </Button>
+            {hasMetaMask ? (
+              <Button className="w-full" onClick={() => handleConnect()} disabled={connecting}>
+                <Wallet className="h-4 w-4" />
+                {connecting ? t("wallet_connecting") : t("connect_metamask")}
+              </Button>
+            ) : (
+              <>
+                <div className="space-y-1.5">
+                  <Label>{t("researcher_wallet_label")}</Label>
+                  <Input
+                    placeholder={t("wallet_placeholder")}
+                    value={walletInput}
+                    onChange={(e) => setWalletInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleConnect()}
+                  />
+                </div>
+                <Button className="w-full" onClick={() => handleConnect()} disabled={connecting}>
+                  <LogIn className="h-4 w-4" />
+                  {connecting ? t("wallet_connecting") : t("researcher_connect")}
+                </Button>
+              </>
+            )}
           </CardContent>
         </Card>
         </div>
@@ -151,7 +156,7 @@ export default function PatientDashboard() {
         </Link>
         <div className="flex items-center gap-2">
           <LanguageToggle />
-          <Button variant="ghost" size="sm" onClick={() => { setWallet(null); setWalletInput(""); }}>
+          <Button variant="ghost" size="sm" onClick={disconnect}>
             {wallet.slice(0, 8)}…
           </Button>
         </div>
