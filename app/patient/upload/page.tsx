@@ -2,7 +2,8 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Upload, FileUp, CheckCircle2, AlertCircle } from "lucide-react";
+import Link from "next/link";
+import { Upload, FileUp, CheckCircle2, AlertCircle, Brain, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -86,7 +87,18 @@ export default function UploadPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-muted/30">
+    <div className="min-h-screen flex flex-col bg-muted/30">
+      <header className="flex items-center justify-between px-4 py-3 border-b bg-background">
+        <Link href="/" className="flex items-center gap-2 hover:opacity-75 transition-opacity">
+          <Brain className="h-5 w-5 text-primary" />
+          <span className="font-semibold">{t("app_name")}</span>
+        </Link>
+        <Link href="/patient" className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <ChevronLeft className="h-4 w-4" />
+          {t("back_to_dashboard")}
+        </Link>
+      </header>
+      <div className="flex-1 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -192,6 +204,7 @@ export default function UploadPage() {
           </div>
         </CardContent>
       </Card>
+    </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { Brain, FlaskConical, Lock, Unlock, LogIn, CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -144,10 +145,10 @@ export default function ResearcherPortal() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="flex items-center justify-between px-4 py-3 border-b">
-        <div className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2 hover:opacity-75 transition-opacity">
           <Brain className="h-5 w-5 text-primary" />
           <span className="font-semibold">{t("app_name")}</span>
-        </div>
+        </Link>
         <div className="flex items-center gap-2">
           <LanguageToggle />
           <Button variant="ghost" size="sm" onClick={() => { setWallet(null); setWalletInput(""); }}>
