@@ -103,7 +103,15 @@ export default function PatientDashboard() {
   // ── Not connected ────────────────────────────────────────────────────────────
   if (!wallet) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-muted/30">
+      <div className="min-h-screen flex flex-col bg-muted/30">
+        <header className="flex items-center justify-between px-4 py-3 border-b bg-background">
+          <Link href="/" className="flex items-center gap-2 hover:opacity-75 transition-opacity">
+            <Brain className="h-5 w-5 text-primary" />
+            <span className="font-semibold">{t("app_name")}</span>
+          </Link>
+          <LanguageToggle />
+        </header>
+        <div className="flex-1 flex items-center justify-center p-4">
         <Card className="w-full max-w-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -128,6 +136,7 @@ export default function PatientDashboard() {
             </Button>
           </CardContent>
         </Card>
+        </div>
       </div>
     );
   }
