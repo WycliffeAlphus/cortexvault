@@ -27,14 +27,9 @@ export default function UploadPage() {
   const [cid, setCid] = useState("");
   const [progress, setProgress] = useState(0);
 
-  function loadDemoEeg() {
-    // Create a minimal synthetic EDF-like binary so the demo never requires a real upload
-    const header = new TextEncoder().encode(
-      "0       Demo Patient                              Demo Recording         29.03.2026 00:00:00 768     EDF+C  1   30      s 1   EEG Fp1         uV      -3276.8 3276.7  -3276.8 3276.7  "
-        .padEnd(768, " ")
-        .slice(0, 768)
-    );
-    const blob = new Blob([header], { type: "application/octet-stream" });
+  async function loadDemoEeg() {
+    const res = await fetch("/demo-eeg/demo-motor-imagery.edf");
+    const blob = await res.blob();
     const demo = new File([blob], DEMO_EEG_FILE_NAME, { type: "application/octet-stream" });
     setFile(demo);
     if (fileRef.current) fileRef.current.value = "";
