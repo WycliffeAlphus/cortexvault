@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Badge } from "@/components/ui/badge";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { SplitAuthShell, RESEARCHER_FEATURES } from "@/components/SplitAuthShell";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useWallet } from "@/hooks/useWallet";
 import { appendAuditEvent, type Dataset, getDatasets } from "@/lib/store";
@@ -167,50 +168,45 @@ export default function ResearcherPortal() {
   // ── Not connected ────────────────────────────────────────────────────────────
   if (!wallet) {
     return (
-      <div className="min-h-screen flex flex-col bg-muted/30">
-        <header className="flex items-center justify-between px-4 py-3 border-b bg-background">
-          <Link href="/" className="flex items-center gap-2 hover:opacity-75 transition-opacity">
-            <Brain className="h-5 w-5 text-primary" />
-            <span className="font-semibold">{t("app_name")}</span>
-          </Link>
-          <div className="flex items-center gap-1"><LanguageToggle /><ThemeToggle /></div>
-        </header>
-        <div className="flex-1 flex items-center justify-center p-4">
-        <Card className="w-full max-w-sm">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FlaskConical className="h-5 w-5" />
-              {t("researcher_title")}
-            </CardTitle>
-            <CardDescription>{t("researcher_subtitle")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
+      <SplitAuthShell
+        role="researcher"
+        headline="Access consented neural data."
+        tagline="Patient-verified, time-limited, purpose-specific. Lit Protocol enforces every condition."
+        features={RESEARCHER_FEATURES}
+      >
+        <div>
+          <h2 className="text-2xl font-bold mb-1">{t("researcher_title")}</h2>
+          <p className="text-muted-foreground text-sm mb-8">{t("researcher_subtitle")}</p>
+
+          <div className="space-y-3">
             {hasMetaMask ? (
-              <Button className="w-full" onClick={() => handleConnect()} disabled={connecting}>
+              <Button className="w-full h-11 text-sm font-medium" onClick={() => handleConnect()} disabled={connecting}>
                 <Wallet className="h-4 w-4" />
                 {connecting ? t("wallet_connecting") : t("connect_metamask")}
               </Button>
             ) : (
               <>
                 <div className="space-y-1.5">
-                  <Label>{t("researcher_wallet_label")}</Label>
+                  <Label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                    {t("researcher_wallet_label")}
+                  </Label>
                   <Input
+                    className="h-11"
                     placeholder={t("wallet_placeholder")}
                     value={walletInput}
                     onChange={(e) => setWalletInput(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleConnect()}
                   />
                 </div>
-                <Button className="w-full" onClick={() => handleConnect()} disabled={connecting}>
+                <Button className="w-full h-11 text-sm font-medium" onClick={() => handleConnect()} disabled={connecting}>
                   <LogIn className="h-4 w-4" />
                   {connecting ? t("wallet_connecting") : t("researcher_connect")}
                 </Button>
               </>
             )}
-          </CardContent>
-        </Card>
+          </div>
         </div>
-      </div>
+      </SplitAuthShell>
     );
   }
 
