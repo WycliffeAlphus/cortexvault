@@ -36,22 +36,22 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
 
-      {/* ── Hero (always dark) ───────────────────────────────────────────── */}
-      <div className="relative bg-zinc-950 text-white overflow-hidden">
+      {/* Nav — fixed across entire page */}
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 py-4 bg-zinc-950 text-white">
+        <div className="flex items-center gap-2">
+          <div className="h-8 w-8 rounded-lg bg-white/10 flex items-center justify-center">
+            <Brain className="h-4 w-4 text-white" />
+          </div>
+          <span className="font-bold text-base">{t("app_name")}</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <LanguageToggle className="border-white/30 text-white bg-transparent hover:bg-white/10 hover:text-white" />
+          <ThemeToggle className="text-white hover:bg-white/10" />
+        </div>
+      </header>
 
-        {/* Nav */}
-        <header className="sticky top-0 z-20 flex items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-white/10 flex items-center justify-center">
-              <Brain className="h-4 w-4 text-white" />
-            </div>
-            <span className="font-bold text-base">{t("app_name")}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <LanguageToggle className="border-white/30 text-white bg-transparent hover:bg-white/10 hover:text-white" />
-            <ThemeToggle className="text-white hover:bg-white/10" />
-          </div>
-        </header>
+      {/* ── Hero (always dark) ───────────────────────────────────────────── */}
+      <div className="relative bg-zinc-950 text-white overflow-hidden pt-14">
 
         {/* Background layers */}
         {/* Blob glows */}

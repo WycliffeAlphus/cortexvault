@@ -204,7 +204,7 @@ export default function ResearcherPortal() {
   // ── Portal ────────────────────────────────────────────────────────────────────
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 border-b bg-background/95 backdrop-blur">
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-b bg-background/95 backdrop-blur">
         <Link href="/" className="flex items-center gap-2 hover:opacity-75 transition-opacity">
           <Brain className="h-5 w-5 text-primary" />
           <span className="font-semibold">{t("app_name")}</span>
@@ -217,7 +217,7 @@ export default function ResearcherPortal() {
         </div>
       </header>
 
-      <main className="flex-1 max-w-2xl w-full mx-auto p-4 space-y-4">
+      <main className="flex-1 max-w-2xl w-full mx-auto p-4 pt-16 space-y-4">
         <div>
           <h1 className="text-xl font-bold">{t("researcher_title")}</h1>
           <p className="text-sm text-muted-foreground">{t("researcher_subtitle")}</p>
