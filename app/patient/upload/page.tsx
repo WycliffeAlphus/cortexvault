@@ -52,17 +52,10 @@ export default function UploadPage() {
       const form = new FormData();
       form.append("file", file);
 
-      // Try real upload; fall back to a mock CID so the demo never breaks
-      let resultCid: string;
-      try {
-        const res = await fetch("/api/upload", { method: "POST", body: form });
-        const json = await res.json();
-        if (!res.ok) throw new Error(json.error);
-        resultCid = json.cid;
-      } catch {
-        // Sandbox fallback: generate a deterministic-looking mock CID
-        resultCid = `bafybeif${Math.random().toString(36).slice(2, 18)}demo`;
-      }
+      const res = await fetch("/api/upload", { method: "POST", body: form });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "Upload failed");
+      const resultCid: string = json.cid;
 
       setProgress(100);
       setCid(resultCid);
