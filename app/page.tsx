@@ -48,8 +48,8 @@ export default function LandingPage() {
             <span className="font-bold text-base">{t("app_name")}</span>
           </div>
           <div className="flex items-center gap-1">
-            <LanguageToggle />
-            <ThemeToggle />
+            <LanguageToggle className="border-white/25 text-white hover:bg-white/10 hover:text-white" />
+            <ThemeToggle className="text-white hover:bg-white/10" />
           </div>
         </header>
 
@@ -115,7 +115,7 @@ export default function LandingPage() {
 
           {/* Tech logos */}
           <div className="flex flex-col items-center gap-3 pt-4">
-            <p className="text-xs text-white/30 uppercase tracking-widest font-medium">Built with</p>
+            <p className="text-xs text-white/30 uppercase tracking-widest font-medium">{t("built_with")}</p>
             <div className="flex flex-wrap items-center justify-center gap-8">
               {TECH_LOGOS.map(({ src, alt, h, darkInvert }) => (
                 <div key={alt} className="group flex flex-col items-center gap-1.5">

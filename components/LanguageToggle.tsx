@@ -5,7 +5,7 @@ import { LanguageContext } from "@/components/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/hooks/useTranslation";
 
-export function LanguageToggle() {
+export function LanguageToggle({ className }: { className?: string }) {
   const { lang, setLang } = useContext(LanguageContext);
   const { t } = useTranslation();
 
@@ -14,7 +14,7 @@ export function LanguageToggle() {
       variant="outline"
       size="sm"
       onClick={() => setLang(lang === "en" ? "sw" : "en")}
-      className="font-medium"
+      className={`font-medium ${className ?? ""}`}
     >
       {t("lang_toggle")}
     </Button>
