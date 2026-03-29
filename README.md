@@ -126,12 +126,3 @@ CortexVault is built on the principle that individuals own their neural data.
 - Every access event is logged and the patient is notified by SMS
 - Compliant with the **Kenya Data Protection Act 2019**
 
----
-
-## Deployment
-
-```bash
-npm run build
-```
-
-Deploy to Vercel by connecting this repository at [vercel.com](https://vercel.com) and setting the environment variables in project settings.
