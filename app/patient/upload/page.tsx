@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/useTranslation";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { addDataset, getStoredWallet } from "@/lib/store";
 import { encryptFile } from "@/lib/lit";
 
@@ -95,10 +96,13 @@ export default function UploadPage() {
           <Brain className="h-5 w-5 text-primary" />
           <span className="font-semibold">{t("app_name")}</span>
         </Link>
-        <Link href="/patient" className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
-          <ChevronLeft className="h-4 w-4" />
-          {t("back_to_dashboard")}
-        </Link>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <Link href="/patient" className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <ChevronLeft className="h-4 w-4" />
+            {t("back_to_dashboard")}
+          </Link>
+        </div>
       </header>
       <div className="flex-1 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">

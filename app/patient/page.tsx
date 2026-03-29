@@ -13,6 +13,7 @@ import { ConsentCard, type ConsentGrant } from "@/components/ConsentCard";
 import { AuditLog, type AuditEvent } from "@/components/AuditLog";
 import { EthicsPanel } from "@/components/EthicsPanel";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useWallet } from "@/hooks/useWallet";
 import {
@@ -105,7 +106,7 @@ export default function PatientDashboard() {
             <Brain className="h-5 w-5 text-primary" />
             <span className="font-semibold">{t("app_name")}</span>
           </Link>
-          <LanguageToggle />
+          <div className="flex items-center gap-1"><LanguageToggle /><ThemeToggle /></div>
         </header>
         <div className="flex-1 flex items-center justify-center p-4">
         <Card className="w-full max-w-sm">
@@ -155,7 +156,7 @@ export default function PatientDashboard() {
           <span className="font-semibold">{t("app_name")}</span>
         </Link>
         <div className="flex items-center gap-2">
-          <LanguageToggle />
+          <div className="flex items-center gap-1"><LanguageToggle /><ThemeToggle /></div>
           <Button variant="ghost" size="sm" onClick={disconnect}>
             {wallet.slice(0, 8)}…
           </Button>

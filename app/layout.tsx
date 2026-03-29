@@ -14,6 +14,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+      <head>
+        {/* Prevent flash of wrong theme before React hydrates */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function(){
+            var s = localStorage.getItem('theme');
+            var p = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (s === 'dark' || (!s && p)) document.documentElement.classList.add('dark');
+          })();
+        `}} />
+      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <LanguageProvider>{children}</LanguageProvider>
       </body>

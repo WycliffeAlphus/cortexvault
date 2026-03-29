@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useWallet } from "@/hooks/useWallet";
 import { appendAuditEvent, type Dataset, getDatasets } from "@/lib/store";
@@ -172,7 +173,7 @@ export default function ResearcherPortal() {
             <Brain className="h-5 w-5 text-primary" />
             <span className="font-semibold">{t("app_name")}</span>
           </Link>
-          <LanguageToggle />
+          <div className="flex items-center gap-1"><LanguageToggle /><ThemeToggle /></div>
         </header>
         <div className="flex-1 flex items-center justify-center p-4">
         <Card className="w-full max-w-sm">
@@ -222,7 +223,7 @@ export default function ResearcherPortal() {
           <span className="font-semibold">{t("app_name")}</span>
         </Link>
         <div className="flex items-center gap-2">
-          <LanguageToggle />
+          <div className="flex items-center gap-1"><LanguageToggle /><ThemeToggle /></div>
           <Button variant="ghost" size="sm" onClick={disconnect}>
             {wallet.slice(0, 10)}…
           </Button>

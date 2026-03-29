@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Brain, Lock, Users, Smartphone, ArrowRight, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const FEATURE_ICONS = [Lock, Users, Smartphone] as const;
@@ -40,8 +41,9 @@ export default function LandingPage() {
           </div>
           <span className="font-bold text-base tracking-tight">{t("app_name")}</span>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1">
           <LanguageToggle />
+          <ThemeToggle />
         </div>
       </header>
 
@@ -106,27 +108,23 @@ export default function LandingPage() {
             </div>
 
             {/* Tech stack logos */}
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col items-center gap-3">
               <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">Built with</p>
-              <div className="flex flex-wrap items-center justify-center gap-6">
+              <div className="flex flex-wrap items-center justify-center gap-8">
                 {TECH_LOGOS.map(({ src, alt, h }) => (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    key={alt}
-                    src={src}
-                    alt={alt}
-                    style={{ height: h, width: "auto", opacity: 0.75, filter: "grayscale(20%)" }}
-                    className="hover:opacity-100 hover:filter-none transition-all duration-200"
-                    onError={(e) => {
-                      // Fallback to text if image fails
-                      const el = e.currentTarget;
-                      el.style.display = "none";
-                      const span = document.createElement("span");
-                      span.textContent = alt;
-                      span.className = "text-xs font-medium text-muted-foreground";
-                      el.parentElement?.appendChild(span);
-                    }}
-                  />
+                  <div key={alt} className="group flex flex-col items-center gap-1.5">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={src}
+                      alt={alt}
+                      style={{ height: h, width: "auto" }}
+                      className="opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-200 dark:invert dark:brightness-150"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                    />
+                    <span className="text-xs font-medium text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap">
+                      {alt}
+                    </span>
+                  </div>
                 ))}
               </div>
             </div>
