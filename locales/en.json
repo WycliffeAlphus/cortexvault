@@ -11,6 +11,39 @@
   "landing_cta_researcher": "I'm a Researcher",
   "landing_powered_by": "Powered by Storacha + Filecoin + Lit Protocol",
   "built_with": "Built with",
+  "neural_data_rights_tag": "Neural Data Rights · Kenya 2026",
+
+  "patient_login_headline": "Your brain data. Your rules.",
+  "patient_login_tagline": "Encrypt and store your EEG data on Filecoin. Grant researchers access. Revoke it anytime.",
+  "patient_feature_1": "Your EEG data is encrypted with AES-256 before it leaves your device.",
+  "patient_feature_2": "Grant and revoke researcher access in seconds — you stay in control.",
+  "patient_feature_3": "Receive an SMS every time your data is accessed by a researcher.",
+  "patient_feature_4": "Full audit trail. You can see every access event, any time.",
+
+  "researcher_login_headline": "Access consented neural data.",
+  "researcher_login_tagline": "Patient-verified, time-limited, purpose-specific. Lit Protocol enforces every condition.",
+  "researcher_feature_1": "Access patient-consented neural datasets for your research.",
+  "researcher_feature_2": "Transparent access conditions — time-limited and purpose-specific.",
+  "researcher_feature_3": "Lit Protocol enforces consent. Revoked access is instant and tamper-proof.",
+  "researcher_feature_4": "Every access is logged and visible to the patient via SMS.",
+
+  "back_to_home": "Back to home",
+  "split_compliance": "Kenya Data Protection Act 2019",
+  "split_hackathon": "PL Genesis Hackathon · Cognitive Sovereignty Track",
+
+  "stat_datasets": "Datasets",
+  "stat_active_grants": "Active grants",
+  "stat_access_events": "Access events",
+
+  "days_left": "days left",
+
+  "eeg_decrypted_label": "EEG Data — Decrypted via Lit Protocol",
+  "eeg_lit_verified_label": "EEG Data — Lit Access Verified",
+  "eeg_data_label": "EEG Data",
+  "eeg_channels_info": "Channels: 64 | Duration: 120s | Sample rate: 256Hz",
+  "eeg_patient_anon": "Patient: anonymous",
+  "eeg_access_until": "Access granted until:",
+  "eeg_study_label": "Study:",
 
   "patient_dashboard_title": "My Neural Vault",
   "patient_dashboard_subtitle": "Your brain data is encrypted and stored securely",
