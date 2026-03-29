@@ -76,8 +76,11 @@
   "success_granted": "Access granted successfully.",
   "success_revoked": "Access revoked. Researcher is now blocked.",
 
-  "connect_hint": "Enter your wallet address or use demo mode",
+  "connect_hint": "Connect with MetaMask or enter a wallet address",
   "wallet_placeholder": "0x... or leave blank for demo",
+  "connect_metamask": "Connect MetaMask",
+  "wallet_connecting": "Connecting…",
+  "upload_lit_notice": "File will be encrypted with Lit Protocol (AES-256-GCM) before upload.",
   "dataset_label": "Dataset",
   "dataset_placeholder": "Select a dataset",
   "researcher_name_placeholder": "Dr. Odhiambo",

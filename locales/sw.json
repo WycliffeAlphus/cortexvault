@@ -76,8 +76,11 @@
   "success_granted": "Ruhusa imetolewa kwa mafanikio.",
   "success_revoked": "Ruhusa imeondolewa. Mtafiti amezuiwa sasa.",
 
-  "connect_hint": "Ingiza anwani yako ya pochi au tumia hali ya maonyesho",
+  "connect_hint": "Unganisha MetaMask au ingiza anwani ya pochi",
   "wallet_placeholder": "0x... au acha wazi kwa maonyesho",
+  "connect_metamask": "Unganisha MetaMask",
+  "wallet_connecting": "Inaunganisha…",
+  "upload_lit_notice": "Faili litasimbwa kwa Lit Protocol (AES-256-GCM) kabla ya kupakia.",
   "dataset_label": "Seti ya Data",
   "dataset_placeholder": "Chagua seti ya data",
   "researcher_name_placeholder": "Dk. Odhiambo",

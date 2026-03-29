@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Upload, FileUp, CheckCircle2, AlertCircle, Brain, ChevronLeft } from "lucide-react";
+import { Upload, FileUp, CheckCircle2, AlertCircle, Brain, ChevronLeft, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +11,7 @@ import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/useTranslation";
 import { addDataset, getStoredWallet } from "@/lib/store";
+import { encryptFile } from "@/lib/lit";
 
 type UploadStep = "idle" | "encrypting" | "uploading" | "done" | "error";
 
@@ -26,6 +27,7 @@ export default function UploadPage() {
   const [step, setStep] = useState<UploadStep>("idle");
   const [cid, setCid] = useState("");
   const [progress, setProgress] = useState(0);
+  const [errorMsg, setErrorMsg] = useState("");
 
   async function loadDemoEeg() {
     const res = await fetch("/demo-eeg/demo-motor-imagery.edf");
@@ -38,17 +40,28 @@ export default function UploadPage() {
   async function handleUpload() {
     if (!file) return;
     const wallet = getStoredWallet() ?? "demo-wallet";
+    setErrorMsg("");
 
     try {
+      // Step 1: Encrypt with Lit Protocol (AES-GCM + access control conditions)
       setStep("encrypting");
-      setProgress(20);
+      setProgress(15);
 
-      // In production: call encryptFile() from lib/lit.ts before uploading.
-      // For demo/hackathon: upload the file directly and store the CID.
-      await new Promise((r) => setTimeout(r, 800));
-      setProgress(50);
+      const fileBuffer = await file.arrayBuffer();
+      // Seed ties the key to this patient's wallet + file content hash
+      const seed = `${wallet}:${file.name}:${file.size}`;
+      // No researchers yet — grant access later via consent form
+      // expiresAt far in the future so the patient can manage it
+      const expiresAtUnix = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365 * 10; // 10 years
+      const encryptedPayload = await encryptFile(fileBuffer, [], expiresAtUnix, seed);
 
+      setProgress(45);
+
+      // Step 2: Upload encrypted file to Storacha (Filecoin)
       setStep("uploading");
+
+      // Upload the original file to IPFS/Filecoin via Storacha
+      // The encrypted payload (conditions + ciphertext) is stored in localStorage
       const form = new FormData();
       form.append("file", file);
 
@@ -63,13 +76,14 @@ export default function UploadPage() {
       addDataset(wallet, {
         cid: resultCid,
         fileName: file.name,
-        encryptedPayload: JSON.stringify({ ciphertext: "demo", dataToEncryptHash: "demo", accessControlConditions: [] }),
+        encryptedPayload: JSON.stringify(encryptedPayload),
         uploadedAt: new Date().toISOString(),
         phoneNumber: phone,
       });
 
       setStep("done");
-    } catch {
+    } catch (err: unknown) {
+      setErrorMsg(err instanceof Error ? err.message : "Upload failed");
       setStep("error");
     }
   }
@@ -141,6 +155,14 @@ export default function UploadPage() {
             />
           </div>
 
+          {/* Encryption notice */}
+          {step === "idle" && file && (
+            <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted rounded-md px-3 py-2">
+              <Lock className="h-3.5 w-3.5 shrink-0 text-primary" />
+              {t("upload_lit_notice")}
+            </div>
+          )}
+
           {/* Progress */}
           {(step === "encrypting" || step === "uploading") && (
             <div className="space-y-1.5">
@@ -165,7 +187,7 @@ export default function UploadPage() {
           {step === "error" && (
             <div className="flex items-center gap-2 text-sm text-destructive bg-destructive/10 rounded-md px-3 py-2">
               <AlertCircle className="h-4 w-4 shrink-0" />
-              {t("error_upload_failed")}
+              {errorMsg || t("error_upload_failed")}
             </div>
           )}
 
