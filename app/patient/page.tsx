@@ -176,6 +176,20 @@ export default function PatientDashboard() {
           </Button>
         </div>
 
+        {/* Stats bar */}
+        <div className="grid grid-cols-3 gap-3">
+          {[
+            { value: datasets.length, label: "Datasets" },
+            { value: grants.filter((g) => !g.revoked && new Date(g.expiresAt) >= new Date()).length, label: "Active grants" },
+            { value: auditLog.length, label: "Access events" },
+          ].map(({ value, label }) => (
+            <div key={label} className="rounded-xl border bg-card px-4 py-3 text-center shadow-sm">
+              <p className="text-2xl font-bold tabular-nums" style={{ color: "oklch(0.585 0.233 277)" }}>{value}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{label}</p>
+            </div>
+          ))}
+        </div>
+
         <Tabs defaultValue="consents">
           <TabsList className="w-full">
             <TabsTrigger value="consents" className="flex-1">{t("patient_consents_tab")}</TabsTrigger>
