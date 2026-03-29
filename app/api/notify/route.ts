@@ -17,7 +17,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ sent: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : "SMS failed";
-    console.error("[notify]", message);
+    const detail = (err as { response?: { data?: unknown } })?.response?.data;
+    console.error("[notify]", message, detail ?? "");
     // Non-fatal — don't break the access flow if SMS fails
     return NextResponse.json({ sent: false, error: message });
   }

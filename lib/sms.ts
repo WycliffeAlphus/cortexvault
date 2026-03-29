@@ -1,7 +1,7 @@
 /**
- * Africa's Talking SMS wrapper.
- * Sign up at africastalking.com for a free sandbox account.
- * Set AT_API_KEY and AT_USERNAME env vars (use "sandbox" as username for testing).
+ * Africa's Talking SMS — direct API call (no SDK).
+ * The africastalking npm package (0.7.9) does not support the new atsk_ key format,
+ * so we call the REST API directly.
  */
 
 export async function sendAccessNotification(
@@ -17,15 +17,30 @@ export async function sendAccessNotification(
     return;
   }
 
-  const AfricasTalking = (await import("africastalking")).default;
-  const at = AfricasTalking({ apiKey, username });
-  const sms = at.SMS;
+  const isSandbox = username === "sandbox";
+  const endpoint = isSandbox
+    ? "https://api.sandbox.africastalking.com/version1/messaging"
+    : "https://api.africastalking.com/version1/messaging";
 
   const message = `CortexVault: ${researcherName} accessed your brain data on ${accessDate}. To revoke access visit your CortexVault dashboard.`;
 
-  await sms.send({
-    to: [phoneNumber],
-    message,
-    from: process.env.AT_SENDER_ID,
+  const body = new URLSearchParams({ username, to: phoneNumber, message });
+  if (!isSandbox && process.env.AT_SENDER_ID) {
+    body.set("from", process.env.AT_SENDER_ID);
+  }
+
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      apiKey,
+      "Content-Type": "application/x-www-form-urlencoded",
+      Accept: "application/json",
+    },
+    body: body.toString(),
   });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`AT API ${res.status}: ${text}`);
+  }
 }
