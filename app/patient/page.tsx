@@ -6,7 +6,7 @@ import { Brain, Plus, LogIn, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ConsentCard, type ConsentGrant } from "@/components/ConsentCard";
@@ -14,7 +14,7 @@ import { AuditLog, type AuditEvent } from "@/components/AuditLog";
 import { EthicsPanel } from "@/components/EthicsPanel";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { SplitAuthShell, PATIENT_FEATURES } from "@/components/SplitAuthShell";
+import { SplitAuthShell } from "@/components/SplitAuthShell";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useWallet } from "@/hooks/useWallet";
 import {
@@ -101,12 +101,7 @@ export default function PatientDashboard() {
   // ── Not connected ────────────────────────────────────────────────────────────
   if (!wallet) {
     return (
-      <SplitAuthShell
-        role="patient"
-        headline="Your brain data. Your rules."
-        tagline="Encrypt and store your EEG data on Filecoin. Grant researchers access. Revoke it anytime."
-        features={PATIENT_FEATURES}
-      >
+      <SplitAuthShell role="patient">
         <div>
           <h2 className="text-2xl font-bold mb-1">{t("patient_dashboard_title")}</h2>
           <p className="text-muted-foreground text-sm mb-8">{t("connect_hint")}</p>
@@ -176,9 +171,9 @@ export default function PatientDashboard() {
         {/* Stats bar */}
         <div className="grid grid-cols-3 gap-3">
           {[
-            { value: datasets.length, label: "Datasets" },
-            { value: grants.filter((g) => !g.revoked && new Date(g.expiresAt) >= new Date()).length, label: "Active grants" },
-            { value: auditLog.length, label: "Access events" },
+            { value: datasets.length, label: t("stat_datasets") },
+            { value: grants.filter((g) => !g.revoked && new Date(g.expiresAt) >= new Date()).length, label: t("stat_active_grants") },
+            { value: auditLog.length, label: t("stat_access_events") },
           ].map(({ value, label }) => (
             <div key={label} className="rounded-xl border bg-card px-4 py-3 text-center shadow-sm">
               <p className="text-2xl font-bold tabular-nums" style={{ color: "oklch(0.585 0.233 277)" }}>{value}</p>

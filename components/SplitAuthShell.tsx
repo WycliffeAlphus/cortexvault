@@ -4,48 +4,45 @@ import Link from "next/link";
 import { Brain, Lock, Users, Smartphone, FlaskConical, ShieldCheck, Eye, ChevronLeft } from "lucide-react";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTranslation } from "@/hooks/useTranslation";
 
-interface Feature {
-  icon: React.FC<{ className?: string }>;
-  text: string;
-}
+type Role = "patient" | "researcher";
 
 interface SplitAuthShellProps {
-  role: "patient" | "researcher";
-  headline: string;
-  tagline: string;
-  features: Feature[];
+  role: Role;
   children: React.ReactNode;
 }
 
-export function SplitAuthShell({ role, headline, tagline, features, children }: SplitAuthShellProps) {
+export function SplitAuthShell({ role, children }: SplitAuthShellProps) {
+  const { t } = useTranslation();
   const isPatient = role === "patient";
 
-  // Left panel: always dark regardless of theme
-  // gradient varies by role
   const gradientClass = isPatient
     ? "from-indigo-950 via-violet-950 to-zinc-950"
     : "from-zinc-950 via-cyan-950 to-indigo-950";
 
-  const blobA = isPatient
-    ? "bg-violet-600/25"
-    : "bg-cyan-500/20";
+  const blobA = isPatient ? "bg-violet-600/25" : "bg-cyan-500/20";
+  const blobB = isPatient ? "bg-indigo-500/15" : "bg-indigo-600/20";
+  const accentLine = isPatient ? "border-violet-500" : "border-cyan-500";
+  const accentText = isPatient ? "text-violet-400" : "text-cyan-400";
+  const iconBg = isPatient ? "bg-violet-500/20 text-violet-300" : "bg-cyan-500/20 text-cyan-300";
 
-  const blobB = isPatient
-    ? "bg-indigo-500/15"
-    : "bg-indigo-600/20";
+  const headline = t(isPatient ? "patient_login_headline" : "researcher_login_headline");
+  const tagline  = t(isPatient ? "patient_login_tagline"  : "researcher_login_tagline");
 
-  const accentLine = isPatient
-    ? "border-violet-500"
-    : "border-cyan-500";
-
-  const accentText = isPatient
-    ? "text-violet-400"
-    : "text-cyan-400";
-
-  const iconBg = isPatient
-    ? "bg-violet-500/20 text-violet-300"
-    : "bg-cyan-500/20 text-cyan-300";
+  const features = isPatient
+    ? [
+        { icon: Lock,        text: t("patient_feature_1") },
+        { icon: Users,       text: t("patient_feature_2") },
+        { icon: Smartphone,  text: t("patient_feature_3") },
+        { icon: ShieldCheck, text: t("patient_feature_4") },
+      ]
+    : [
+        { icon: FlaskConical, text: t("researcher_feature_1") },
+        { icon: Eye,          text: t("researcher_feature_2") },
+        { icon: ShieldCheck,  text: t("researcher_feature_3") },
+        { icon: Lock,         text: t("researcher_feature_4") },
+      ];
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
@@ -68,22 +65,20 @@ export function SplitAuthShell({ role, headline, tagline, features, children }: 
         <div className={`absolute -top-24 -left-24 w-96 h-96 rounded-full blur-3xl pointer-events-none ${blobA}`} />
         <div className={`absolute -bottom-24 -right-16 w-80 h-80 rounded-full blur-3xl pointer-events-none ${blobB}`} />
 
-        {/* Content */}
-        <div className="relative z-10">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-white/10 flex items-center justify-center">
-              <Brain className="h-4 w-4 text-white" />
-            </div>
-            <span className="text-white font-semibold text-base">CortexVault Kenya</span>
+        {/* Logo */}
+        <div className="relative z-10 flex items-center gap-2">
+          <div className="h-8 w-8 rounded-lg bg-white/10 flex items-center justify-center">
+            <Brain className="h-4 w-4 text-white" />
           </div>
+          <span className="text-white font-semibold text-base">{t("app_name")}</span>
         </div>
 
+        {/* Main content */}
         <div className="relative z-10 space-y-8">
           <div>
             <h1 className="text-4xl font-bold text-white leading-snug mb-3">{headline}</h1>
             <p className="text-white/60 text-base leading-relaxed max-w-sm">{tagline}</p>
           </div>
-
           <ul className="space-y-4">
             {features.map(({ icon: Icon, text }) => (
               <li key={text} className="flex items-start gap-3">
@@ -96,21 +91,22 @@ export function SplitAuthShell({ role, headline, tagline, features, children }: 
           </ul>
         </div>
 
+        {/* Footer */}
         <div className={`relative z-10 border-l-2 pl-4 ${accentLine}`}>
-          <p className={`text-xs font-medium ${accentText}`}>🇰🇪 Kenya Data Protection Act 2019</p>
-          <p className="text-white/40 text-xs mt-0.5">PL Genesis Hackathon · Cognitive Sovereignty Track</p>
+          <p className={`text-xs font-medium ${accentText}`}>🇰🇪 {t("split_compliance")}</p>
+          <p className="text-white/40 text-xs mt-0.5">{t("split_hackathon")}</p>
         </div>
       </div>
 
       {/* ── Right panel (respects theme) ─────────────────────────────────── */}
       <div className="flex flex-col min-h-screen bg-background">
-        {/* Mobile header */}
+        {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b lg:border-0">
           <Link href="/" className="flex items-center gap-2 hover:opacity-75 transition-opacity">
             <div className="h-7 w-7 rounded-md bg-primary flex items-center justify-center">
               <Brain className="h-3.5 w-3.5 text-primary-foreground" />
             </div>
-            <span className="font-semibold text-sm">CortexVault Kenya</span>
+            <span className="font-semibold text-sm">{t("app_name")}</span>
           </Link>
           <div className="flex items-center gap-1">
             <LanguageToggle />
@@ -118,36 +114,20 @@ export function SplitAuthShell({ role, headline, tagline, features, children }: 
           </div>
         </div>
 
-        {/* Form area */}
+        {/* Form */}
         <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
           <div className="w-full max-w-sm space-y-8">
             {children}
           </div>
-
           <Link
             href="/"
             className="mt-10 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
             <ChevronLeft className="h-3.5 w-3.5" />
-            Back to home
+            {t("back_to_home")}
           </Link>
         </div>
       </div>
     </div>
   );
 }
-
-// Pre-built feature sets for each role
-export const PATIENT_FEATURES: Feature[] = [
-  { icon: Lock,         text: "Your EEG data is encrypted with AES-256 before it leaves your device." },
-  { icon: Users,        text: "Grant and revoke researcher access in seconds — you stay in control." },
-  { icon: Smartphone,   text: "Receive an SMS every time your data is accessed by a researcher." },
-  { icon: ShieldCheck,  text: "Full audit trail. You can see every access event, any time." },
-];
-
-export const RESEARCHER_FEATURES: Feature[] = [
-  { icon: FlaskConical, text: "Access patient-consented neural datasets for your research." },
-  { icon: Eye,          text: "Transparent access conditions — time-limited and purpose-specific." },
-  { icon: ShieldCheck,  text: "Lit Protocol enforces consent. Revoked access is instant and tamper-proof." },
-  { icon: Lock,         text: "Every access is logged and visible to the patient via SMS." },
-];

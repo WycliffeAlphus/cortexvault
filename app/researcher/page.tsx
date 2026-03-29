@@ -6,7 +6,7 @@ import { Brain, FlaskConical, Lock, Unlock, LogIn, CalendarDays, Wallet } from "
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -96,10 +96,6 @@ export default function ResearcherPortal() {
         // Check if this is a real encrypted payload (has ciphertext + wrappedKey)
         if (payload.ciphertext && payload.wrappedKey) {
           // Real Lit Protocol decryption — verify access conditions and decrypt
-          const seed = `${grant.patientWallet}:${grant.dataset.fileName}:`;
-          // Note: seed uses fileName without size since we don't have the original File object
-          // In production the seed would be derived differently (e.g., from a stored key ID)
-          // For demo: try to decrypt; if seed mismatch the AES-GCM tag will fail
           const expiresAtUnix = Math.floor(new Date(grant.expiresAt).getTime() / 1000);
 
           // Re-build the correct access conditions to verify

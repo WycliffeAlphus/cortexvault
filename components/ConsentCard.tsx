@@ -102,7 +102,7 @@ export function ConsentCard({ grant, onRevoke }: ConsentCardProps) {
           </div>
           {isActive && daysLeft > 0 && (
             <span className={`font-medium ${daysLeft <= 7 ? "text-amber-600" : "text-muted-foreground"}`}>
-              {daysLeft}d left
+              {daysLeft} {t("days_left")}
             </span>
           )}
         </div>

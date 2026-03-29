@@ -76,7 +76,7 @@ export default function LandingPage() {
           {/* Tag */}
           <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/60 backdrop-blur">
             <Shield className="h-3 w-3 text-violet-400" />
-            Neural Data Rights · Kenya 2026
+            {t("neural_data_rights_tag")}
           </div>
 
           {/* Headline */}
@@ -92,7 +92,7 @@ export default function LandingPage() {
                   backgroundClip: "text",
                 }}
               >
-                {line2 ?? "Your Choice."}
+                {line2 ?? t("landing_cta_patient")}
               </span>
             </h1>
             <p className="text-white/55 text-lg leading-relaxed max-w-lg mx-auto">
