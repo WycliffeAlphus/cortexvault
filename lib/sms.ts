@@ -17,9 +17,9 @@ export async function sendAccessNotification(
     return;
   }
 
-  console.log("[sms] sending to:", phoneNumber, "via", isSandbox ? "sandbox" : "production", "username:", username);
-
   const isSandbox = username === "sandbox";
+
+  console.log("[sms] sending to:", phoneNumber, "via", isSandbox ? "sandbox" : "production", "username:", username);
   const endpoint = isSandbox
     ? "https://api.sandbox.africastalking.com/version1/messaging"
     : "https://api.africastalking.com/version1/messaging";
