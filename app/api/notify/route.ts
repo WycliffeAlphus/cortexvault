@@ -5,7 +5,10 @@ export async function POST(req: NextRequest) {
   try {
     const { phoneNumber, researcherName, accessDate } = await req.json();
 
+    console.log("[notify] received — phone:", phoneNumber, "researcher:", researcherName);
+
     if (!phoneNumber || !researcherName) {
+      console.warn("[notify] missing fields — phone:", phoneNumber, "researcher:", researcherName);
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
@@ -14,6 +17,7 @@ export async function POST(req: NextRequest) {
     });
 
     await sendAccessNotification(phoneNumber, researcherName, date);
+    console.log("[notify] SMS sent to", phoneNumber);
     return NextResponse.json({ sent: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : "SMS failed";

@@ -13,9 +13,11 @@ export async function sendAccessNotification(
   const username = process.env.AT_USERNAME ?? "sandbox";
 
   if (!apiKey) {
-    console.warn("AT_API_KEY not set — skipping SMS notification");
+    console.warn("[sms] AT_API_KEY not set — skipping SMS notification");
     return;
   }
+
+  console.log("[sms] sending to:", phoneNumber, "via", isSandbox ? "sandbox" : "production", "username:", username);
 
   const isSandbox = username === "sandbox";
   const endpoint = isSandbox
