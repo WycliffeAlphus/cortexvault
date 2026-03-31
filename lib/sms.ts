@@ -10,7 +10,7 @@ export async function sendAccessNotification(
   accessDate: string
 ): Promise<void> {
   const apiKey = process.env.AT_API_KEY;
-  const username = process.env.AT_USERNAME ?? "sandbox";
+  const username = (process.env.AT_USERNAME ?? "sandbox").trim();
 
   if (!apiKey) {
     console.warn("[sms] AT_API_KEY not set — skipping SMS notification");
