@@ -3,6 +3,7 @@
 > **Decentralized neural data consent for community health research in Kenya.**
 
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://cortexvault-jade.vercel.app/)
+[![Watch Demo](https://img.shields.io/badge/demo-video-red)](https://github.com/WycliffeAlphus/cortexvault/raw/main/public/demo.mp4)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](#license)
 [![Built for PL Genesis Hackathon 2026](https://img.shields.io/badge/PL%20Genesis-2026-purple)](https://cortexvault-jade.vercel.app/)
 
@@ -10,7 +11,7 @@ A patient-facing consent wallet where users store encrypted biosignal data on Fi
 
 Built for the **PL Genesis Hackathon 2026** — Cognitive Sovereignty & Neural Data Rights track.
 
-**[Live Demo →](https://cortexvault-jade.vercel.app/)**
+**[Live Demo →](https://cortexvault-jade.vercel.app/)** · **[Watch Demo →](https://github.com/WycliffeAlphus/cortexvault/raw/main/public/demo.mp4)**
 
 ---
 
