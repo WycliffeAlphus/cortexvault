@@ -23,7 +23,7 @@ export async function sendAccessNotification(
     ? "https://api.sandbox.africastalking.com/version1/messaging"
     : "https://api.africastalking.com/version1/messaging";
 
-  console.log("[sms] sending to:", phoneNumber, "endpoint:", endpoint, "username:", username.trim());
+  console.log("[sms] sending to:", phoneNumber, "endpoint:", endpoint, "username:", username.trim(), "key prefix:", apiKey?.slice(0, 10));
 
   const message = `CortexVault: ${researcherName} accessed your brain data on ${accessDate}. To revoke access visit your CortexVault dashboard.`;
 
