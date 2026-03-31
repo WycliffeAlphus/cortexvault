@@ -65,6 +65,10 @@ export default function UploadPage() {
       // The encrypted payload (conditions + ciphertext) is stored in localStorage
       const form = new FormData();
       form.append("file", file);
+      form.append("patientWallet", wallet);
+      form.append("phoneNumber", phone);
+      form.append("encryptedPayload", JSON.stringify(encryptedPayload));
+      form.append("fileSize", String(file.size));
 
       const res = await fetch("/api/upload", { method: "POST", body: form });
       const json = await res.json();
@@ -77,6 +81,7 @@ export default function UploadPage() {
       addDataset(wallet, {
         cid: resultCid,
         fileName: file.name,
+        fileSize: file.size,
         encryptedPayload: JSON.stringify(encryptedPayload),
         uploadedAt: new Date().toISOString(),
         phoneNumber: phone,

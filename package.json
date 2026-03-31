@@ -22,6 +22,7 @@
     "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-toast": "^1.2.15",
+    "@supabase/supabase-js": "^2.101.1",
     "@ucanto/core": "^10.4.6",
     "@ucanto/principal": "^9.0.3",
     "@web3-storage/w3up-client": "^17.3.0",

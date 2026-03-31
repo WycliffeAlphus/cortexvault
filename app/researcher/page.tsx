@@ -13,7 +13,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { SplitAuthShell } from "@/components/SplitAuthShell";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useWallet } from "@/hooks/useWallet";
-import { appendAuditEvent, type Dataset, getDatasets } from "@/lib/store";
+import { appendAuditEvent, type Dataset } from "@/lib/store";
 import { decryptFile } from "@/lib/lit";
 import type { ConsentGrant } from "@/components/ConsentCard";
 
@@ -24,29 +24,11 @@ interface GrantWithDataset extends ConsentGrant {
   decryptError?: string;
 }
 
-/**
- * Scan all localStorage keys for grants where researcherAddress = current wallet.
- * In production this would be a backend query or on-chain event scan.
- */
-function findGrantsForResearcher(researcherWallet: string): GrantWithDataset[] {
-  if (typeof window === "undefined") return [];
-  const results: GrantWithDataset[] = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (!key?.startsWith("nv:grants:")) continue;
-    const patientWallet = key.replace("nv:grants:", "");
-    try {
-      const grants: ConsentGrant[] = JSON.parse(localStorage.getItem(key) ?? "[]");
-      const datasets = getDatasets(patientWallet);
-      for (const grant of grants) {
-        if (grant.researcherAddress.toLowerCase() === researcherWallet.toLowerCase()) {
-          const dataset = datasets.find((d) => d.cid === grant.datasetCid);
-          results.push({ ...grant, dataset, patientWallet });
-        }
-      }
-    } catch { /* skip corrupted keys */ }
-  }
-  return results;
+async function fetchGrantsForResearcher(researcherWallet: string): Promise<GrantWithDataset[]> {
+  const res = await fetch(`/api/grants?researcher=${encodeURIComponent(researcherWallet.toLowerCase())}`);
+  if (!res.ok) return [];
+  const { grants } = await res.json();
+  return (grants ?? []) as GrantWithDataset[];
 }
 
 export default function ResearcherPortal() {
@@ -59,7 +41,7 @@ export default function ResearcherPortal() {
   const hasMetaMask = typeof window !== "undefined" && !!(window as Window & { ethereum?: unknown }).ethereum;
 
   const refresh = useCallback((w: string) => {
-    setGrants(findGrantsForResearcher(w));
+    fetchGrantsForResearcher(w).then(setGrants);
   }, []);
 
   useEffect(() => {
@@ -114,7 +96,7 @@ export default function ResearcherPortal() {
 
           // Attempt decrypt — shows real decryption working
           try {
-            const buf = await decryptFile(payload, wallet, `${grant.patientWallet}:${grant.dataset.fileName}:${grant.dataset.cid.length}`);
+            const buf = await decryptFile(payload, wallet, `${grant.patientWallet}:${grant.dataset.fileName}:${grant.dataset.fileSize ?? 0}`);
             const byteCount = buf.byteLength;
             decryptedContent = `[${t("eeg_decrypted_label")}]\nFile: ${grant.dataset.fileName}\nSize: ${(byteCount / 1024).toFixed(1)} KB\nCID: ${grant.datasetCid}\n${t("eeg_study_label")} ${grant.purpose}\n${t("eeg_access_until")} ${new Date(grant.expiresAt).toLocaleDateString()}`;
           } catch {

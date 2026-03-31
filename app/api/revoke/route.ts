@@ -1,19 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/db";
 
-/**
- * POST /api/revoke
- * Body: { grantId }
- *
- * In production this would update a backend DB so the revocation is persisted.
- * For the hackathon demo the client mirrors revocation in localStorage, and Lit
- * conditions are updated client-side via lib/lit.ts.
- */
 export async function POST(req: NextRequest) {
   try {
     const { grantId } = await req.json();
 
     if (!grantId) {
       return NextResponse.json({ error: "Missing grantId" }, { status: 400 });
+    }
+
+    if (supabase) {
+      const { error } = await supabase
+        .from("consent_grants")
+        .update({ revoked: true })
+        .eq("id", grantId);
+      if (error) console.error("[revoke] DB update failed:", error.message);
     }
 
     return NextResponse.json({ revoked: true, grantId });

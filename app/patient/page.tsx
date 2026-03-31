@@ -61,7 +61,7 @@ export default function PatientDashboard() {
       const res = await fetch("/api/grant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cid: selectedCid, researcherAddress: researcherAddr, researcherName, purpose, expiresAt }),
+        body: JSON.stringify({ cid: selectedCid, patientWallet: wallet, researcherAddress: researcherAddr, researcherName, purpose, expiresAt }),
       });
       const { grant } = await res.json();
       addGrant(wallet, grant);

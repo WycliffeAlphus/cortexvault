@@ -1,18 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/db";
 
-/**
- * POST /api/grant
- * Body: { cid, researcherAddress, expiresAt }
- *
- * Stores the updated access condition metadata in the response so the client
- * can save it to localStorage alongside the encrypted payload CID.
- * The actual Lit Protocol encryption happens on the client (lib/lit.ts) because
- * it requires the user's wallet/auth-sig — this route just validates input and
- * could optionally write to a backend DB.
- */
 export async function POST(req: NextRequest) {
   try {
-    const { cid, researcherAddress, researcherName, purpose, expiresAt } = await req.json();
+    const { cid, patientWallet, researcherAddress, researcherName, purpose, expiresAt } = await req.json();
 
     if (!cid || !researcherAddress || !expiresAt) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -27,6 +18,20 @@ export async function POST(req: NextRequest) {
       expiresAt,
       revoked: false,
     };
+
+    if (supabase && patientWallet) {
+      const { error } = await supabase.from("consent_grants").insert({
+        id: grant.id,
+        dataset_cid: cid,
+        patient_wallet: patientWallet,
+        researcher_address: researcherAddress.toLowerCase(),
+        researcher_name: grant.researcherName,
+        purpose: grant.purpose,
+        expires_at: expiresAt,
+        revoked: false,
+      });
+      if (error) console.error("[grant] DB save failed:", error.message);
+    }
 
     return NextResponse.json({ grant });
   } catch (err) {

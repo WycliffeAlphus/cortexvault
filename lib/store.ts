@@ -9,6 +9,7 @@ import type { AuditEvent } from "@/components/AuditLog";
 export interface Dataset {
   cid: string;
   fileName: string;
+  fileSize?: number;
   encryptedPayload: string; // JSON-stringified EncryptedPayload
   uploadedAt: string;
   phoneNumber: string;
