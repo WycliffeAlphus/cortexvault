@@ -2,9 +2,23 @@
 
 > **Decentralized neural data consent for community health research in Kenya.**
 
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://cortexvault-jade.vercel.app/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](#license)
+[![Built for PL Genesis Hackathon 2026](https://img.shields.io/badge/PL%20Genesis-2026-purple)](https://cortexvault-jade.vercel.app/)
+
 A patient-facing consent wallet where users store encrypted biosignal data on Filecoin, grant and revoke researcher access via Lit Protocol's programmable conditions, and receive SMS notifications when their data is accessed — mobile-first, bilingual (English / Swahili).
 
 Built for the **PL Genesis Hackathon 2026** — Cognitive Sovereignty & Neural Data Rights track.
+
+**[Live Demo →](https://cortexvault-jade.vercel.app/)**
+
+---
+
+## Screenshots
+
+| Dark Mode | Light Mode |
+|---|---|
+| ![CortexVault dark mode](public/screenshot-dark.png) | ![CortexVault light mode](public/screenshot-light.png) |
 
 ---
 
@@ -82,7 +96,11 @@ npm install
 
 ### 2. Configure environment variables
 
-Copy `.env.local` and fill in your keys:
+Copy `.env.example` and fill in your keys:
+
+```bash
+cp .env.example .env.local
+```
 
 ```bash
 # Storacha (web3.storage w3up)
@@ -126,3 +144,8 @@ CortexVault is built on the principle that individuals own their neural data.
 - Every access event is logged and the patient is notified by SMS
 - Compliant with the **Kenya Data Protection Act 2019**
 
+---
+
+## License
+
+MIT © 2026 CortexVault Kenya
